@@ -1,6 +1,22 @@
+
 body {
-    background-color: beige;
-    color: #3f5799;
+    background-color: white;
+    color: #4a1c17;
     font-family: Arial, sans-serif;
-    text-align: left;
+    Text align: left;
+}
+
+p{
+color: #9e4a85
+}
+
+
+ul li{
+
+width: 300px;
+border: 2px solid #8c3930;
+padding: 10px;
+margin-bottom: 5px;
+list-style-type: none;
+
 }
