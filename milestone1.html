@@ -25,5 +25,29 @@
         });
     </script>
 
+  <h1>List of Books</h1>
+<div id="books-list"></div>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON('https://www.googleapis.com/books/v1/volumes?q=modern%20web', function (data) {
+            var booksList = '';
+            $.each(data.items, function (index, book) {
+                booksList += `
+                    <div>
+                        <h3>${book.volumeInfo.title}</h3>
+                        <p><strong>Authors:</strong> ${book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'No author information'}</p>
+                        <p><strong>Publisher:</strong> ${book.volumeInfo.publisher}</p>
+                        <p><strong>Published Date:</strong> ${book.volumeInfo.publishedDate}</p>
+                        <p><a href="${book.volumeInfo.infoLink}" target="_blank">More Info</a></p>
+                    </div>
+                    <hr>
+                `;
+            });
+            $('#books-list').html(booksList);
+        });
+    });
+</script>
+
 </body>
 </html>
