@@ -1,6 +1,5 @@
 body {
     background-color: white;
-    color: #4a1c17;
     font-family: Arial, sans-serif;
     padding: 20px;
 }
@@ -11,7 +10,7 @@ h1, h2, h3 {
 
 
 p {
-    color: #9e4a85;
+    color: #black;
 }
 
 ul li{
@@ -32,7 +31,7 @@ div {
 }
 
 a {
-    color: #4a1c17;
+    color: darkblue;
     text-decoration: none;
 }
 
