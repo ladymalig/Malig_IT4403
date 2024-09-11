@@ -1,15 +1,18 @@
-
 body {
     background-color: white;
     color: #4a1c17;
     font-family: Arial, sans-serif;
-    Text align: left;
+    padding: 20px;
 }
 
-p{
-color: #9e4a85
+h1, h2, h3 {
+    color: #8c3930;
 }
 
+
+p {
+    color: #9e4a85;
+}
 
 ul li{
 
@@ -19,4 +22,26 @@ padding: 10px;
 margin-bottom: 5px;
 list-style-type: none;
 
+}
+
+div {
+    padding: 15px;
+    border: 2px solid #8c3930;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+a {
+    color: #4a1c17;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #8c3930;
 }
