@@ -36,10 +36,11 @@ $(document).ready(function () {
                     var bookId = book.id;
                     var title = book.volumeInfo.title;
                     var thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : 'no-image.jpg';
-                    results += `<div>
-                                <img src="${thumbnail}" alt="${title}">
-                                <a href="bookinfo.html?id=${bookId}">${title}</a>
-                              </div>`;
+                   results += `<div>
+               		 <img src="${thumbnail}" alt="${title}">
+               	 	<a href="bookinfo.html?id=${bookId}">${title}</a>
+           		 </div>`;
+
                 });
                 $('#results').html(results);
             } else {
