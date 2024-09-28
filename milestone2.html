@@ -12,6 +12,7 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="bookshelf.html">My Bookshelf</a></li>
+		<li><a href="bookinfo.html">My Book Info</a></li>
             </ul>
         </nav>
     </header>
@@ -24,9 +25,20 @@
 
     <div id="results"></div>
 
-    <div id="pagination"></div>
+    <div id="pagination">
+	<label for="pages">Select Page: </label>
+    <select id="pages">
+        <option value="0">1</option>
+        <option value="40">2</option>
+        <option value="80">3</option>
+       
+    </select>
+</div>
+
+	</div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
