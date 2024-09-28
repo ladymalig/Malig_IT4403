@@ -1,46 +1,129 @@
+/* General page layout */
 body {
     background-color: white;
     font-family: Arial, sans-serif;
     padding: 20px;
+    margin: 0;
 }
 
+/* Header and Navigation */
+header {
+    background-color: #8c3930; /* Same reddish-brown color */
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center; /* Center the navigation */
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white; /* White text on reddish-brown background */
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+nav ul li a:hover {
+    color: #f9f6f4; /* Slight hover effect */
+}
+
+/* Styling for headings and content */
 h1, h2, h3 {
-    color: #8c3930;
+    color: #8c3930; /* Consistent reddish-brown heading color */
 }
-
 
 p {
-    color: #black;
-}
-
-ul li{
-
-width: 300px;
-border: 2px solid #8c3930;
-padding: 10px;
-margin-bottom: 5px;
-list-style-type: none;
-
-}
-
-div {
-    padding: 15px;
-    border: 2px solid #8c3930;
-    margin-bottom: 20px;
-    border-radius: 5px;
+    color: #333333; /* Dark gray for regular text */
 }
 
 a {
-    color: darkblue;
+    color: #2e553c; /* Forest green for links */
     text-decoration: none;
 }
 
 a:hover {
+    color: #22452d;
     text-decoration: underline;
 }
 
+/* Consistent book styling for both Single Book and List of Books */
+.book-details {
+    display: flex; /* Flexbox to align images and text side-by-side */
+    align-items: flex-start;
+    background-color: #f9f6f4; /* Light background for contrast */
+    border: 2px solid #8c3930;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+    width: 100%; /* Ensure the book details extend full width */
+}
+
+.book-details img {
+    margin-right: 20px;
+    border-radius: 5px;
+    width: 100px;
+    height: auto;
+}
+
+.book-details h3 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    color: #8c3930;
+}
+
+.book-details p {
+    color: #333333;
+    margin: 8px 0;
+}
+
+/* Button styling */
+a.button {
+    background-color: #2e553c;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    margin-top: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+a.button:hover {
+    background-color: #22452d;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Horizontal rule styling */
 hr {
     border: 0;
     height: 1px;
     background-color: #8c3930;
+    margin: 20px 0;
+}
+
+/* Additional list styling */
+ul {
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+/* Remove extra padding/margin/border from #book-info container */
+#book-info {
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 100%; /* Ensure it takes up full width */
 }
