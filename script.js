@@ -1,32 +1,26 @@
 $(document).ready(function () {
-    var currentSearchTerm = '';  // Store search term globally
+    var currentSearchTerm = '';  
 
-    // Book search functionality
     $('#search-btn').click(function () {
-        currentSearchTerm = $('#search-term').val().trim();  // Store search term
+        currentSearchTerm = $('#search-term').val().trim();  
 
-        // Check if search term is empty
         if (!currentSearchTerm) {
             $('#results').html('<p>Please enter a search term.</p>');
-            return;  // Stop further execution if empty
+            return;
         }
 
-        // Fetch results for the first page (startIndex=0)
         fetchBooks(currentSearchTerm, 0);
     });
 
-    // Paging functionality
     $('#pages').change(function () {
-        var selectedPage = $(this).val();  // Get the startIndex for the selected page
-        fetchBooks(currentSearchTerm, selectedPage);  // Use current search term
+        var selectedPage = $(this).val();
+        fetchBooks(currentSearchTerm, selectedPage);
     });
 
-    // Function to fetch books based on search term and startIndex
     function fetchBooks(searchTerm, startIndex) {
         var url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&startIndex=${startIndex}&maxResults=40`;
-        console.log("Search URL: ", url);  // Log the URL to ensure it’s correct
+        console.log("Search URL: ", url);
 
-        // Show a loading message while fetching results
         $('#results').html('<p>Loading results...</p>');
 
         $.getJSON(url, function (data) {
@@ -35,44 +29,54 @@ $(document).ready(function () {
                 $.each(data.items, function (index, book) {
                     var bookId = book.id;
                     var title = book.volumeInfo.title;
+                    var author = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'No author information';
+                    var publisher = book.volumeInfo.publisher ? book.volumeInfo.publisher : 'No publisher information';
                     var thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : 'https://via.placeholder.com/128x192.png?text=No+Image';
-                    results += `<div>
-                        <img src="${thumbnail}" alt="${title}">
-                        <a href="bookinfo.html?id=${bookId}">${title}</a>
-                    </div>`;
+
+                    results += `<div class="book-result">
+                                    <img src="${thumbnail}" alt="${title}">
+                                    <div>
+                                        <h3>${title}</h3>
+                                        <p><strong>Author:</strong> ${author}</p>
+                                        <p><strong>Publisher:</strong> ${publisher}</p>
+                                        <a href="bookinfo.html?id=${bookId}" class="button">More Info</a>
+                                    </div>
+                                </div>`;
                 });
                 $('#results').html(results);
             } else {
                 $('#results').html('<p>No results found</p>');
             }
         }).fail(function () {
-            // Error handling for failed request
             $('#results').html('<p>Error fetching data. Please try again later.</p>');
         });
     }
 
-    // Fetch and display books from your public bookshelf
     function fetchBookshelf() {
         var bookshelfUrl = `https://www.googleapis.com/books/v1/users/101245217956101178977/bookshelves/1001/volumes`;
 
-        console.log("Fetching from: ", bookshelfUrl);  // Log the API URL
+        console.log("Fetching from: ", bookshelfUrl);
 
-        // Show a loading message while fetching bookshelf data
         $('#bookshelf-results').html('<p>Loading bookshelf...</p>');
 
         $.getJSON(bookshelfUrl, function (data) {
-            console.log("Bookshelf data: ", data);  // Log the fetched data to verify the response
             var results = '';
             if (data.items && data.items.length > 0) {
                 $.each(data.items, function (index, book) {
                     var bookId = book.id;
                     var title = book.volumeInfo.title;
+                    var author = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'No author information';
+                    var publisher = book.volumeInfo.publisher ? book.volumeInfo.publisher : 'No publisher information';
                     var thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : 'https://via.placeholder.com/128x192.png?text=No+Image';
 
-                    // Generate the HTML for each book result
-                    results += `<div>
+                    results += `<div class="book-result">
                                     <img src="${thumbnail}" alt="${title}">
-                                    <a href="bookinfo.html?id=${bookId}">${title}</a>
+                                    <div>
+                                        <h3>${title}</h3>
+                                        <p><strong>Author:</strong> ${author}</p>
+                                        <p><strong>Publisher:</strong> ${publisher}</p>
+                                        <a href="bookinfo.html?id=${bookId}" class="button">More Info</a>
+                                    </div>
                                 </div>`;
                 });
                 $('#bookshelf-results').html(results);
@@ -84,17 +88,14 @@ $(document).ready(function () {
         });
     }
 
-    // If the user is on bookshelf.html, fetch the bookshelf
     if (window.location.pathname.includes('bookshelf.html')) {
         fetchBookshelf();
     }
 
-    // Book details page functionality
     if (window.location.pathname.includes('bookinfo.html')) {
         var urlParams = new URLSearchParams(window.location.search);
         var bookId = urlParams.get('id');
 
-        // Add error handling for missing bookId
         if (!bookId) {
             $('#book-details').html('<p>Error: Book ID not found. Please try again.</p>');
             return;
@@ -104,7 +105,7 @@ $(document).ready(function () {
 
         var url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
 
-        console.log("Book Details URL: ", url);  // Log book details URL
+        console.log("Book Details URL: ", url);
 
         $.getJSON(url, function (data) {
             var details = `<h2>${data.volumeInfo.title}</h2>
