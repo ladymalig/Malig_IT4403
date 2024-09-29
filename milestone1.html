@@ -19,27 +19,29 @@
     </header>
 
 <h1>Single Book</h1>
-<div class="book-details" id="book-info"></div> <!-- Use the same class for consistency -->
+<div id="book-info"></div> 
   
 <script>
 $(document).ready(function () {
     $.getJSON('https://www.googleapis.com/books/v1/volumes/Wfan6L9RGgYC', function (data) {
-        var imageLink = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'no-image-available.jpg'; // Use 'no-image-available.jpg' if no image is found
+        var imageLink = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : 'https://via.placeholder.com/128x192.png?text=No+Image';
+
         var bookInfo = `
-            <div class="book-details">
+            <div class="book-result">
                 <img src="${imageLink}" alt="Book Cover" />
                 <div>
                     <h3>${data.volumeInfo.title}</h3>
-                    <p><strong>Authors:</strong> ${data.volumeInfo.authors.join(', ')}</p>
+                    <p><strong>Authors:</strong> ${data.volumeInfo.authors ? data.volumeInfo.authors.join(', ') : 'N/A'}</p>
                     <p><strong>Publisher:</strong> ${data.volumeInfo.publisher}</p>
                     <p><strong>Published Date:</strong> ${data.volumeInfo.publishedDate}</p>
-                    <p><a class="button" href="${data.volumeInfo.infoLink}" target="_blank">More Info</a></p>
+                    <a class="button" href="${data.volumeInfo.infoLink}" target="_blank">More Info</a>
                 </div>
             </div>
         `;
         $('#book-info').html(bookInfo);
     });
 });
+
 </script>
 
 <h1>List of Books</h1>
@@ -50,15 +52,17 @@ $(document).ready(function () {
     $.getJSON('https://www.googleapis.com/books/v1/volumes?q=modern%20web', function (data) {
         var booksList = '';
         $.each(data.items, function (index, book) {
+            var imageLink = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'https://via.placeholder.com/128x192.png?text=No+Image';
+
             booksList += `
-                <div class="book-details">
-                    <img src="${book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'no-image-available.jpg'}" alt="Book Cover"/>
+                <div class="book-result">
+                    <img src="${imageLink}" alt="Book Cover"/>
                     <div>
                         <h3>${book.volumeInfo.title}</h3>
-                        <p><strong>Authors:</strong> ${book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'No author information'}</p>
+                        <p><strong>Authors:</strong> ${book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'N/A'}</p>
                         <p><strong>Publisher:</strong> ${book.volumeInfo.publisher}</p>
                         <p><strong>Published Date:</strong> ${book.volumeInfo.publishedDate}</p>
-                        <p><a class="button" href="${book.volumeInfo.infoLink}" target="_blank">More Info</a></p>
+                        <a class="button" href="${book.volumeInfo.infoLink}" target="_blank">More Info</a>
                     </div>
                 </div>
                 <hr>
@@ -67,6 +71,7 @@ $(document).ready(function () {
         $('#books-list').html(booksList);
     });
 });
+
 </script>
 
 </body>
