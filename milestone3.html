@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search App</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <section id="search-section">
+        <h2>Book Search AJAX</h2>
+        <input type="text" id="search-term" placeholder="Enter search term">
+        <button id="search-btn">Search</button>
+    </section>
+
+    <div class="content-container">
+        <section id="results-section" class="content-section">
+            <div id="results"></div>
+            <div id="pagination"></div>
+        </section>
+
+        <section id="details-section" class="content-section">
+            <div id="book-details"></div>
+        </section>
+    </div>
+
+    <button id="bookshelf-btn">My Bookshelf</button>
+
+    <section id="bookshelf-section" style="display: none;">
+        <div id="bookshelf"></div>
+    </section>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
