@@ -1,10 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Search App</title>
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="data:,">
+            <style>
+                /* Grid View */
+                #search-results.grid-view {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+                    gap: 20px; /* Spacing between items */
+                }
+
+                .book-grid-item {
+                    border: 1px solid #ccc;
+                    padding: 15px;
+                    border-radius: 8px;
+                    text-align: center;
+                    background-color: #f9f9f9;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+
+                .book-grid-item img {
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                }
+
+                .book-grid-item h3 {
+                    font-size: 1.1em;
+                    margin-bottom: 10px;
+                }
+
+                .book-grid-item .details-btn {
+                    padding: 8px 12px;
+                    border: none;
+                    background-color: #2a5c38;
+                    color: #fff;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 0.9em;
+                }
+
+                .book-grid-item .details-btn:hover {
+                    background-color: #142e1b;
+                }
+
+                /* List View */
+                #search-results.list-view {
+                    display: block;
+                }
+
+                .book-list-item {
+                    border: 1px solid #ccc;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-bottom: 10px;
+                    background-color: #f9f9f9;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+
+                .book-list-item h3 {
+                    font-size: 1.2em;
+                    margin-bottom: 10px;
+                }
+
+
+                .book-list-item .details-btn:hover {
+                    background-color: #142e1b;
+                }
+                .search-btn {
+                    padding: 8px 12px;
+                    border: none;
+                    background-color: #2a5c38;
+                    color: #fff;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 0.9em;
+            
+                }
+
+                /* Modal for Book Details */
+                .modal {
+                    display: none;
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 80%;
+                    max-width: 500px;
+                    background: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+                    z-index: 1000;
+                    overflow: hidden;
+                }
+
+                .modal.show {
+                    display: block;
+                }
+
+                .modal-content {
+                    padding: 20px;
+                }
+
+                .modal-content img {
+                    max-width: 100%;
+                    border-radius: 10px;
+                    margin-bottom: 15px;
+                }
+
+                .modal-content h2 {
+                    font-size: 1.5em;
+                    margin-bottom: 10px;
+                }
+
+                .modal-content p {
+                    font-size: 1em;
+                    line-height: 1.5;
+                    margin-bottom: 10px;
+                }
+
+                #close-modal {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    font-size: 1.5em;
+                    color: #333;
+                    cursor: pointer;
+                }
+
+                #close-modal:hover {
+                    color: #ff0000;
+                }
+            </style>
+
 </head>
 <body>
 
@@ -18,7 +150,7 @@
 
 <div class="container">
     <section id="search-section">
-        <h2>Book Search AJAX</h2>
+        <h2>Book Search Improved SPA UI </h2>
         <input type="text" id="search-term" placeholder="Enter search term">
         <button id="search-btn">Search</button>
     </section>
@@ -41,47 +173,53 @@
 
     <button id="bookshelf-btn">My Bookshelf</button>
 
-    <section id="bookshelf-section" style="display: none;">
+    <section id="bookshelf-section" class="hidden">
         <div id="bookshelf"></div>
     </section>
 </div>
 
 <!-- Mustache Templates -->
 <script id="grid-template" type="x-tmpl-mustache">
-  <div class="book-grid-item" data-id="{{id}}">
-    <img src="{{thumbnail}}" alt="{{title}}">
-    <h3>{{title}}</h3>
-    <p>By {{author}}</p>
-  </div>
+  {{#books}}
+    <div class="book-grid-item" data-id="{{id}}">
+      <img src="{{thumbnail}}" alt="{{title}}">
+      <h3>{{title}}</h3>
+      <button class="details-btn">View Details</button>
+    </div>
+  {{/books}}
 </script>
 
 <script id="list-template" type="x-tmpl-mustache">
-  <div class="book-list-item" data-id="{{id}}">
-    <h3>{{title}}</h3>
-    <p><strong>Author:</strong> {{author}}</p>
-    <p><strong>Description:</strong> {{description}}</p>
-  </div>
+  {{#books}}
+    <div class="book-list-item" data-id="{{id}}">
+      <h3>{{title}}</h3>
+      <button class="details-btn">View Details</button>
+    </div>
+  {{/books}}
 </script>
 
 <script id="details-template" type="x-tmpl-mustache">
-  <h2>{{title}}</h2>
-  <p><strong>Author:</strong> {{author}}</p>
-  <p><strong>Published Date:</strong> {{publishedDate}}</p>
-  <p><strong>Description:</strong> {{description}}</p>
-  <img src="{{thumbnail}}" alt="{{title}}">
+  <div class="book-details-container">
+      <h2>{{title}}</h2>
+      <p><strong>Author:</strong> {{author}}</p>
+      <p><strong>Published Date:</strong> {{publishedDate}}</p>
+      <p><strong>Description:</strong> {{description}}</p>
+      <img src="{{thumbnail}}" alt="{{title}}">
+  </div>
 </script>
 
 <!-- Modal for Book Details -->
-<div id="book-details-modal" class="modal" style="display: none;">
+<div id="book-details-modal" class="modal hidden" role="dialog" aria-labelledby="modal-title">
     <div class="modal-content">
-        <span id="close-modal">&times;</span>
+        <span id="close-modal" role="button" aria-label="Close">&times;</span>
         <div id="modal-book-details"></div>
     </div>
 </div>
 
 <!-- Script Includes -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.0/mustache.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
+
